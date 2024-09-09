@@ -1,0 +1,39 @@
+#define BLYNK_TEMPLATE_ID "TMPL6birdNGS4"
+#define BLYNK_TEMPLATE_NAME "led"        // Tên template của bạn
+#define BLYNK_FIRMWARE_VERSION "0.1.0"
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+
+char auth[] = "Oya80TLzoQeocrQkZU4JWFSKWIZba5EW";
+char ssid[] = "Nhien";
+char pass[] = "13456789";
+
+#define RELAY_PIN 16
+
+BLYNK_WRITE(V1) {
+  int pinValue = param.asInt(); // Nhận giá trị từ Blynk
+
+  if (pinValue == 1) {
+    digitalWrite(RELAY_PIN, LOW);  // Bật relay
+  } else {
+    digitalWrite(RELAY_PIN, HIGH); // Tắt relay
+  }
+}
+
+void setup() {
+  // Khởi tạo kết nối Serial
+  Serial.begin(115200);
+
+  // Khởi tạo Blynk
+  Blynk.begin(auth, ssid, pass);
+
+  // Thiết lập relay pin
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, HIGH);  // Tắt relay lúc khởi động
+}
+
+void loop() {
+  // Chạy Blynk
+  Blynk.run();
+}
